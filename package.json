@@ -1,0 +1,21 @@
+{
+  "name": "cargadores-centro",
+  "version": "1.0.0",
+  "description": "Backend para reservar cargadores de coches eléctricos",
+  "main": "Projecte/backend/app.js",
+  "scripts": {
+    "start": "node Projecte/backend/app.js",
+    "dev": "node Projecte/backend/app.js",
+    "test": "node --test \"Projecte/backend/test/**/*.test.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.5"
+  }
+}

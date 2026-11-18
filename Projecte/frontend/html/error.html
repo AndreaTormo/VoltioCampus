@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accés restringit · VoltioCampus</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/aviso.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/js/auth/access-denied.js"></script>
+</head>
+<body>
+  <main class="auth-layout">
+
+    <section class="panel-brand" aria-label="VoltioCampus">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span class="brand-name">
+          <span class="brand-voltio">Voltio</span>
+          <span class="brand-campus">Campus</span>
+        </span>
+      </div>
+
+      <p class="brand-tagline">Energia compartida, campus en marxa</p>
+
+      <div class="panel-brand-body">
+        <h1 class="brand-title">
+          Carrega el teu cotxe.
+          <span class="accent">Segueix el teu camí.</span>
+        </h1>
+
+        <p class="brand-subtitle">
+          Reserva un dels carregadors del centre de manera ràpida, justa i senzilla.
+        </p>
+
+        <ul class="brand-features">
+          <li class="feature">Reserva en segons</li>
+          <li class="feature">4 punts de càrrega · 22 kW · Connector Type 2</li>
+        </ul>
+      </div>
+
+      <p class="brand-footer">IES l'Estació · Mobilitat sostenible</p>
+    </section>
+
+    <section class="panel-form">
+      <div class="form-card aviso-card">
+        <span class="aviso-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+            <path d="M12 14v3"></path>
+          </svg>
+        </span>
+
+        <p class="eyebrow">Sessió iniciada</p>
+        <h1 class="form-title">Accés reservat a administració</h1>
+        <p class="form-subtitle">
+          Hola, <strong id="aviso-name">usuari</strong>. El teu compte funciona, però el panell
+          de gestió només està disponible per a l'equip administrador.
+        </p>
+
+        <p class="aviso-note">
+          Pots tancar la sessió i tornar a entrar amb un compte d'administració.
+        </p>
+
+        <button class="btn-primary" id="logout-btn" type="button">Tancar sessió</button>
+
+        <p class="form-footer">
+          <a href="/html/login.html" id="back-login">Tornar a l'inici de sessió</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

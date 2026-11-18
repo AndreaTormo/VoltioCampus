@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administració · VoltioCampus</title>
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem("tema");
+        if (tema !== "dark" && tema !== "light") {
+          tema = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.dataset.theme = tema;
+      } catch (error) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/js/core/theme.js"></script>
+  <script type="module" src="/js/admin/admin.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="logo" href="/html/admin.html" aria-label="VoltioCampus">
+        <span class="logo-mark" data-icon="bolt"></span>
+        <span>Voltio<span>Campus</span></span>
+      </a>
+
+      <nav aria-label="Navegació d'administració">
+        <span class="nav-label">ADMINISTRACIÓ</span>
+        <button class="is-active" type="button" data-section="usuarios" aria-current="page">
+          <span data-icon="user"></span>
+          <span>Usuaris</span>
+        </button>
+        <button type="button" data-section="cargadores">
+          <span data-icon="plug"></span>
+          <span>Carregadors</span>
+        </button>
+        <button type="button" data-section="reservas">
+          <span data-icon="calendar"></span>
+          <span>Reserves</span>
+        </button>
+        <button type="button" data-section="historial">
+          <span data-icon="history"></span>
+          <span>Historial</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-support">
+        <span data-icon="shield"></span>
+        <strong>Només administració</strong>
+        <p>Gestiona els comptes, els punts de càrrega i les reserves del campus.</p>
+      </div>
+
+      <div class="profile">
+        <span class="avatar" id="admin-avatar">AD</span>
+        <div class="profile-copy">
+          <strong id="admin-name">Administrador</strong>
+          <small id="admin-email">admin@centro.edu</small>
+        </div>
+        <button class="icon-button" type="button" id="logout-btn" aria-label="Tancar sessió" data-icon="logout"></button>
+      </div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="mobile-brand">
+          <a class="logo" href="/html/admin.html" aria-label="VoltioCampus">
+            <span class="logo-mark" data-icon="bolt"></span>
+            <span>Voltio<span>Campus</span></span>
+          </a>
+        </div>
+
+        <div class="breadcrumb">
+          <span>VoltioCampus</span>
+          <strong>›</strong>
+          <strong id="breadcrumb-section">Usuaris</strong>
+        </div>
+
+        <div class="top-actions">
+          <span class="status-pill"><i></i>Sistema operatiu</span>
+          <span class="admin-pill"><span data-icon="shield"></span> Accés admin</span>
+          <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Activar mode fosc"></button>
+          <div class="account" data-account>
+            <button class="top-avatar" id="top-avatar" type="button" data-account-toggle aria-haspopup="menu" aria-expanded="false" aria-label="Menú del compte">AD</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="page" id="main-content">
+        <div class="page-title">
+          <div> 
+            <span class="eyebrow">PANELL D'ADMINISTRACIÓ</span>
+            <h1>Control del campus</h1>
+            <p>Gestiona els comptes, els punts de càrrega i les reserves.</p>
+          </div>
+          <span class="admin-pill"><span data-icon="shield"></span> Accés admin</span>
+        </div>
+
+        <section id="section-usuarios">
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Usuaris</h2>
+                <p id="users-count">Carregant usuaris...</p>
+              </div>
+              <button class="button primary" type="button" id="add-user-btn">
+                <span data-icon="plus"></span>
+                Afegir usuari
+              </button>
+            </div>
+
+            <div class="loading-state" id="users-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant usuaris...</strong>
+              <p>Consultant la base de dades.</p>
+            </div>
+
+            <div class="admin-table-wrap" id="users-table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuari</th>
+                    <th>Rol</th>
+                    <th>Tipus</th>
+                    <th>NIA</th>
+                    <th>Vehicle</th>
+                    <th>Alta</th>
+                    <th>Estat</th>
+                    <th><span class="sr-only">Accions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="users-empty" hidden>
+              <span data-icon="user"></span>
+              <h2>No hi ha usuaris</h2>
+              <p>Encara no s'ha creat cap compte.</p>
+              <button class="button primary" type="button" data-open-user-modal>
+                <span data-icon="plus"></span>
+                Afegir usuari
+              </button>
+            </div>
+
+            <div class="error-state" id="users-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'han pogut carregar els usuaris</h2>
+              <p id="users-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-users">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-cargadores" hidden>
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Punts de càrrega</h2>
+                <p id="chargers-count">Carregant carregadors...</p>
+              </div>
+              <button class="button primary" type="button" id="add-charger-btn">
+                <span data-icon="plus"></span>
+                Afegir carregador
+              </button>
+            </div>
+
+            <div class="loading-state" id="chargers-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant carregadors...</strong>
+              <p>Consultant la base de dades.</p>
+            </div>
+
+            <div class="admin-table-wrap" id="chargers-table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Carregador</th>
+                    <th>Grup</th>
+                    <th>Potència</th>
+                    <th>Connector</th>
+                    <th>Estat</th>
+                    <th><span class="sr-only">Accions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="chargers-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="chargers-empty" hidden>
+              <span data-icon="plug"></span>
+              <h2>No hi ha carregadors</h2>
+              <p>Configura el primer punt de càrrega del campus.</p>
+              <button class="button primary" type="button" data-open-charger-modal>
+                <span data-icon="plus"></span>
+                Afegir carregador
+              </button>
+            </div>
+
+            <div class="error-state" id="chargers-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'han pogut carregar els carregadors</h2>
+              <p id="chargers-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-chargers">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-reservas" hidden>
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Reserves actives</h2>
+                <p id="admin-reservations-count">Carregant reserves...</p>
+              </div>
+              <button class="button secondary" type="button" id="refresh-admin-reservations">
+                <span data-icon="refresh"></span>
+                Actualitzar
+              </button>
+            </div>
+
+            <div class="turnos-generator">
+              <div class="field">
+                <label for="turnos-semana">Setmana a generar</label>
+                <div class="input-wrap">
+                  <input type="date" id="turnos-semana" required>
+                </div>
+                <p class="turnos-hint">Indica qualsevol dia: es generaran de dilluns a divendres.</p>
+              </div>
+              <button class="button primary" type="button" id="generate-turns">
+                <span data-icon="calendar"></span>
+                Generar torns
+              </button>
+              <p class="form-error" id="turnos-status" role="status" hidden></p>
+            </div>
+
+            <div class="loading-state" id="admin-reservations-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant reserves...</strong>
+              <p>Consultant les reserves actives del campus.</p>
+            </div>
+
+            <div class="admin-table-wrap" id="admin-reservations-table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuari</th>
+                    <th>Dia</th>
+                    <th>Franja</th>
+                    <th>Carregador</th>
+                    <th>Grup</th>
+                    <th>Estat</th>
+                    <th><span class="sr-only">Accions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="admin-reservations-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="admin-reservations-empty" hidden>
+              <span data-icon="calendar"></span>
+              <h2>No hi ha reserves actives</h2>
+              <p>Les reserves que generen els usuaris o els torns apareixeran ací.</p>
+            </div>
+
+            <div class="error-state" id="admin-reservations-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'han pogut carregar les reserves</h2>
+              <p id="admin-reservations-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-admin-reservations">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-historial" hidden>
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Historial d'hores</h2>
+                <p id="history-count">Carregant historial...</p>
+              </div>
+              <button class="button secondary" type="button" id="refresh-history">
+                <span data-icon="history"></span>
+                Actualitzar
+              </button>
+            </div>
+
+            <div class="loading-state" id="history-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant historial...</strong>
+              <p>Consultant les hores reservades per usuari.</p>
+            </div>
+
+            <div class="admin-table-wrap" id="history-table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuari</th>
+                    <th>Hores totals</th>
+                    <th>Hores passades</th>
+                    <th>Reserves actives</th>
+                    <th>Última reserva</th>
+                    <th>Estat</th>
+                  </tr>
+                </thead>
+                <tbody id="history-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="history-empty" hidden>
+              <span data-icon="history"></span>
+              <h2>No hi ha usuaris</h2>
+              <p>Encara no s'ha creat cap compte amb historial.</p>
+            </div>
+
+            <div class="error-state" id="history-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'ha pogut carregar l'historial</h2>
+              <p id="history-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-history">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="mobile-nav has-four-sections" aria-label="Navegació mòbil">
+        <button class="is-active" type="button" data-section="usuarios" aria-current="page">
+          <span data-icon="user"></span>
+          <span>Usuaris</span>
+        </button>
+        <button type="button" data-section="cargadores">
+          <span data-icon="plug"></span>
+          <span>Carregadors</span>
+        </button>
+        <button type="button" data-section="reservas">
+          <span data-icon="calendar"></span>
+          <span>Reserves</span>
+        </button>
+        <button type="button" data-section="historial">
+          <span data-icon="history"></span>
+          <span>Historial</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <dialog class="modal modal-form" id="user-modal" aria-labelledby="user-modal-title">
+    <button class="icon-button modal-close" type="button" data-close-dialog="user-modal" aria-label="Tancar">
+      <span data-icon="close"></span>
+    </button>
+
+    <div class="modal-heading">
+      <span class="modal-icon"><span data-icon="user"></span></span>
+      <h2 id="user-modal-title">Afegir usuari</h2>
+      <p>Completa les dades del nou compte.</p>
+    </div>
+
+    <form id="user-form" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="user-nombre">Nom</label>
+          <div class="input-wrap">
+            <input type="text" id="user-nombre" name="nombre" autocomplete="given-name" required aria-describedby="user-nombre-error">
+          </div>
+          <p class="field-error" id="user-nombre-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="user-apellidos">Cognoms</label>
+          <div class="input-wrap">
+            <input type="text" id="user-apellidos" name="apellidos" autocomplete="family-name" required aria-describedby="user-apellidos-error">
+          </div>
+          <p class="field-error" id="user-apellidos-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="user-email">Correu electrònic</label>
+          <div class="input-wrap">
+            <input type="email" id="user-email" name="email" autocomplete="email" required aria-describedby="user-email-error">
+          </div>
+          <p class="field-error" id="user-email-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="user-password">Contrasenya</label>
+          <div class="input-wrap">
+            <input type="password" id="user-password" name="password" autocomplete="new-password" required aria-describedby="user-password-error">
+          </div>
+          <p class="field-error" id="user-password-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="user-tipo">Tipus d'usuari</label>
+          <div class="input-wrap">
+            <select id="user-tipo" name="tipo" required aria-describedby="user-tipo-error">
+              <option value="">Selecciona una opció</option>
+              <option value="alumno">Alumne/a</option>
+              <option value="profesor">Professor/a</option>
+            </select>
+          </div>
+          <p class="field-error" id="user-tipo-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field" id="user-nia-field" hidden>
+          <label for="user-nia">NIA</label>
+          <div class="input-wrap">
+            <input type="text" id="user-nia" name="nia_profesor" inputmode="numeric" maxlength="8" aria-describedby="user-nia-error">
+          </div>
+          <p class="field-error" id="user-nia-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="user-matricula">Matrícula</label>
+          <div class="input-wrap">
+            <input type="text" id="user-matricula" name="matricula" maxlength="7" required aria-describedby="user-matricula-error">
+          </div>
+          <p class="field-error" id="user-matricula-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="user-modelo">Model del cotxe</label>
+          <div class="input-wrap">
+            <input type="text" id="user-modelo" name="modelo_coche" required aria-describedby="user-modelo-error">
+          </div>
+          <p class="field-error" id="user-modelo-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <p class="form-error" id="user-form-error" role="alert" hidden></p>
+
+      <div class="modal-actions">
+        <button class="button secondary" type="button" data-close-dialog="user-modal">Cancel·lar</button>
+        <button class="button primary" type="submit" id="user-submit">Crear usuari</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal modal-form" id="charger-modal" aria-labelledby="charger-modal-title">
+    <button class="icon-button modal-close" type="button" data-close-dialog="charger-modal" aria-label="Tancar">
+      <span data-icon="close"></span>
+    </button>
+
+    <div class="modal-heading">
+      <span class="modal-icon"><span data-icon="plug"></span></span>
+      <h2 id="charger-modal-title">Afegir carregador</h2>
+      <p>Registra un nou punt de càrrega per al campus.</p>
+    </div>
+
+    <form id="charger-form" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="charger-numero">Número</label>
+          <div class="input-wrap">
+            <input type="number" id="charger-numero" name="numero" min="1" step="1" required aria-describedby="charger-numero-error">
+          </div>
+          <p class="field-error" id="charger-numero-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="charger-grupo">Grup</label>
+          <div class="input-wrap">
+            <select id="charger-grupo" name="tipo_grupo" required aria-describedby="charger-grupo-error">
+              <option value="alumnos">Alumnes</option>
+              <option value="profesores">Professors</option>
+            </select>
+          </div>
+          <p class="field-error" id="charger-grupo-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="charger-conector">Connector</label>
+          <div class="input-wrap">
+            <input type="text" id="charger-conector" name="conector" value="Type 2" required aria-describedby="charger-conector-error">
+          </div>
+          <p class="field-error" id="charger-conector-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="charger-kw">Potència (kW)</label>
+          <div class="input-wrap">
+            <input type="number" id="charger-kw" name="kw" min="0.1" step="0.1" value="22" required aria-describedby="charger-kw-error">
+          </div>
+          <p class="field-error" id="charger-kw-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="charger-tiempo">Temps estimat (min)</label>
+          <div class="input-wrap">
+            <input type="number" id="charger-tiempo" name="tiempo_estimado_fijo" min="1" step="1" value="180" required aria-describedby="charger-tiempo-error">
+          </div>
+          <p class="field-error" id="charger-tiempo-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="charger-descripcion">Descripció</label>
+          <div class="input-wrap">
+            <input type="text" id="charger-descripcion" name="descripcion" placeholder="Carregador alumnes 3" aria-describedby="charger-descripcion-error">
+          </div>
+          <p class="field-error" id="charger-descripcion-error" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <p class="form-error" id="charger-form-error" role="alert" hidden></p>
+
+      <div class="modal-actions">
+        <button class="button secondary" type="button" data-close-dialog="charger-modal">Cancel·lar</button>
+        <button class="button primary" type="submit" id="charger-submit">Crear carregador</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="toggle-user-modal" aria-labelledby="toggle-user-title">
+    <button class="icon-button modal-close" type="button" data-close-dialog="toggle-user-modal" aria-label="Tancar">
+      <span data-icon="close"></span>
+    </button>
+
+    <span class="modal-icon" id="toggle-user-icon"><span data-icon="power"></span></span>
+    <h2 id="toggle-user-title">Desactivar usuari?</h2>
+    <p id="toggle-user-message">Pots canviar l’estat del compte sense eliminar-lo.</p>
+    <p class="form-error" id="toggle-user-error" role="alert" hidden></p>
+
+    <div class="modal-actions">
+      <button class="button secondary" type="button" data-close-dialog="toggle-user-modal">Cancel·lar</button>
+      <button class="button danger-button" type="button" id="confirm-toggle-user">Sí, desactiva</button>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="delete-user-modal" aria-labelledby="delete-user-title">
+    <button class="icon-button modal-close" type="button" data-close-dialog="delete-user-modal" aria-label="Tancar">
+      <span data-icon="close"></span>
+    </button>
+
+    <span class="modal-icon danger"><span data-icon="trash"></span></span>
+    <h2 id="delete-user-title">Eliminar usuari?</h2>
+    <p id="delete-user-message">Esta acció no es pot desfer.</p>
+    <p class="form-error" id="delete-user-error" role="alert" hidden></p>
+
+    <div class="modal-actions">
+      <button class="button secondary" type="button" data-close-dialog="delete-user-modal">Cancel·lar</button>
+      <button class="button danger-button" type="button" id="confirm-delete-user">Sí, elimina</button>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal-form" id="user-schedule-modal" aria-labelledby="user-schedule-title">
+    <button class="icon-button modal-close" type="button" data-close-dialog="user-schedule-modal" aria-label="Tancar">
+      <span data-icon="close"></span>
+    </button>
+
+    <div class="modal-heading">
+      <span class="modal-icon"><span data-icon="calendar"></span></span>
+      <h2 id="user-schedule-title">Horari de presència</h2>
+      <p id="user-schedule-name">Configura quan ve al centre.</p>
+    </div>
+
+    <div class="schedule-editor" id="admin-horario-editor">
+      <div class="schedule-card">
+        <h3>Dies que ve al centre</h3>
+        <p>Activa els dies que ve i indica l’horari de cada un.</p>
+        <div class="schedule-days" data-horario-dias></div>
+      </div>
+      <div class="schedule-actions">
+        <button class="button primary" type="button" data-horario-guardar>
+          Guardar horari
+        </button>
+      </div>
+      <p class="schedule-status" data-horario-estado role="status"></p>
+      <p class="form-error" data-horario-error role="alert" hidden></p>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

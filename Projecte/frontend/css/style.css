@@ -1,0 +1,551 @@
+/* ============================================================
+   VoltioCampus · Estilos compartidos
+   Variables, reset, tipografía y componentes comunes a
+   login.html y register.html.
+   ============================================================ */
+
+/* ---------- Variables de color y medidas ---------- */
+:root {
+  --petroleo: #082a33;
+  --petroleo-claro: #0d3a45;
+  --lima: #9be564;
+  --turquesa: #35d0ba;
+  --turquesa-oscuro: #1e9e92;
+  --verde-logo: #17915e;
+  --btn: #0e7c7b;
+  --btn-hover: #0b918c;
+  --fondo-oscuro: #1a1a1a;
+  --superficie: #222222;
+  --superficie-alta: #262626;
+  --borde: #353535;
+  --borde-claro: #4a4a4a;
+  --texto: #f4f7f6;
+  --texto-suave: #a9b4b2;
+  --error: #ff8a80;
+  --radio: 12px;
+  --radio-grande: 20px;
+  --transicion: 180ms ease;
+  --sombra: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Reset básico ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--fondo-oscuro);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--turquesa);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Accesibilidad: contenido solo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Layout de dos paneles ---------- */
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* ---------- Panel izquierdo (marca) ---------- */
+.panel-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  background-color: var(--petroleo);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(53, 208, 186, 0.16), transparent 45%),
+    radial-gradient(circle at 90% 90%, rgba(155, 229, 100, 0.1), transparent 40%);
+  overflow: hidden;
+}
+
+/* Logotipo: cuadrado verde con rayo dibujado en CSS */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.brand-logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--verde-logo);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+.brand-logo::before {
+  content: "";
+  width: 18px;
+  height: 24px;
+  background-color: var(--lima);
+  clip-path: polygon(58% 0, 0 58%, 42% 58%, 30% 100%, 100% 38%, 55% 38%);
+}
+
+.brand-name {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.brand-voltio {
+  color: #ffffff;
+}
+
+.brand-campus {
+  color: var(--turquesa);
+}
+
+.brand-tagline {
+  max-width: 24ch;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.panel-brand-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 34rem;
+}
+
+.brand-title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.brand-title .accent {
+  display: block;
+  color: var(--lima);
+}
+
+.brand-subtitle {
+  max-width: 42ch;
+  color: var(--texto-suave);
+  font-size: 1.05rem;
+}
+
+/* Lista de ventajas con marca de verificación CSS */
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.feature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--texto);
+  font-size: 0.98rem;
+}
+
+.feature::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(155, 229, 100, 0.14);
+  border: 1px solid rgba(155, 229, 100, 0.45);
+  border-radius: 50%;
+}
+
+/* Marca de verificación dibujada dentro del círculo */
+.feature::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 9px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid var(--lima);
+  border-bottom: 2px solid var(--lima);
+  transform: rotate(45deg);
+}
+
+.brand-footer {
+  color: var(--texto-suave);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Panel derecho (formulario) ---------- */
+.panel-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background-color: var(--fondo-oscuro);
+}
+
+.form-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--turquesa);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.form-title {
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.75rem, 3.4vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.form-subtitle {
+  margin-bottom: 1.75rem;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+/* ---------- Selector Iniciar sesión / Crear cuenta ---------- */
+.tabs {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.3rem;
+  margin-bottom: 1.75rem;
+  background-color: #141414;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: color var(--transicion), background-color var(--transicion);
+}
+
+.tab:hover {
+  color: var(--texto);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--turquesa);
+  outline-offset: 2px;
+}
+
+.tab.is-active {
+  color: #06252b;
+  background-color: var(--turquesa);
+}
+
+/* ---------- Formularios y campos ---------- */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  color: var(--texto);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  outline: none;
+  transition: border-color var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.input-wrap input::placeholder {
+  color: #7d8a88;
+}
+
+.input-wrap input:hover {
+  border-color: var(--borde-claro);
+}
+
+.input-wrap input:focus {
+  background-color: var(--superficie-alta);
+  border-color: var(--turquesa);
+  box-shadow: 0 0 0 3px rgba(53, 208, 186, 0.18);
+}
+
+/* Espacio para el botón Ver/Ocultar dentro del campo */
+.input-wrap.has-toggle input {
+  padding-right: 5.5rem;
+}
+
+/* Botón Ver/Ocultar contraseña */
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  color: var(--turquesa);
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.toggle-password:hover {
+  color: #7ff0e2;
+  background-color: rgba(53, 208, 186, 0.12);
+}
+
+.toggle-password:focus-visible {
+  outline: 2px solid var(--turquesa);
+  outline-offset: 1px;
+}
+
+/* Mensajes de error bajo cada campo */
+.field-error {
+  min-height: 1.1em;
+  color: var(--error);
+  font-size: 0.78rem;
+}
+
+/* Campo con error de validación */
+.input-wrap.is-invalid input {
+  border-color: var(--error);
+}
+
+.input-wrap.is-invalid input:focus {
+  box-shadow: 0 0 0 3px rgba(255, 138, 128, 0.18);
+}
+
+/* Mensaje general del formulario */
+.form-error {
+  padding: 0.75rem 0.9rem;
+  color: #ffd7d3;
+  font-size: 0.85rem;
+  background-color: rgba(255, 138, 128, 0.1);
+  border: 1px solid rgba(255, 138, 128, 0.4);
+  border-radius: var(--radio);
+}
+
+/* ---------- Botón principal ---------- */
+.btn-primary {
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background-color: var(--btn);
+  border: 1px solid transparent;
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: background-color var(--transicion), transform var(--transicion), opacity var(--transicion);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--btn-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--turquesa);
+  outline-offset: 3px;
+}
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ---------- Nota de seguridad con escudo ---------- */
+.security-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+}
+
+.security-icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 22px;
+  background-color: var(--turquesa);
+  clip-path: polygon(50% 0, 100% 18%, 100% 55%, 50% 100%, 0 55%, 0 18%);
+}
+
+/* Marca de verificación dentro del escudo */
+.security-icon::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 5px;
+  height: 8px;
+  border-right: 2px solid var(--petroleo);
+  border-bottom: 2px solid var(--petroleo);
+  transform: rotate(45deg);
+}
+
+/* ---------- Enlaces auxiliares ---------- */
+.form-footer {
+  margin-top: 1.25rem;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.form-footer a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Responsive: paneles apilados en móvil ---------- */
+@media (max-width: 900px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-brand {
+    gap: 1.25rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .panel-brand-body {
+    gap: 1rem;
+    max-width: none;
+  }
+
+  .brand-title {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+
+  .brand-subtitle {
+    font-size: 0.98rem;
+  }
+
+  .brand-footer {
+    margin-top: 0.5rem;
+  }
+
+  .panel-form {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-features {
+    gap: 0.7rem;
+  }
+
+  .feature {
+    font-size: 0.9rem;
+  }
+
+  .tab {
+    font-size: 0.82rem;
+  }
+}
+
+/* ---------- Respeto por preferencias de movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

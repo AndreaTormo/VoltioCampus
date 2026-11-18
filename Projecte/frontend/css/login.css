@@ -1,0 +1,36 @@
+/* ============================================================
+   VoltioCampus · Estilos específicos de la pantalla de login
+   Solo se añade lo que no comparte con el registro.
+   ============================================================ */
+
+.login-card .form-title {
+  max-width: 20ch;
+}
+
+/* Un poco de aire antes del botón de envío */
+.login-form .btn-primary {
+  margin-top: 0.3rem;
+}
+
+.login-card .form-error {
+  margin-top: 0.9rem;
+}
+
+/* El mismo espacio sirve para el aviso de cuenta creada */
+.form-error.is-success {
+  color: #d9f7c4;
+  background-color: rgba(155, 229, 100, 0.1);
+  border-color: rgba(155, 229, 100, 0.4);
+}
+
+.login-card .security-note {
+  margin-top: 0.9rem;
+}
+
+/* En móvil, el formulario se centra dentro del panel apilado */
+@media (max-width: 900px) {
+  .login-card {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}

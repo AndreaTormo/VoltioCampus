@@ -1,0 +1,50 @@
+.aviso-card {
+  text-align: center;
+}
+
+.aviso-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.2rem;
+  border-radius: 18px;
+  background: rgba(53, 208, 186, 0.12);
+  color: var(--turquesa);
+}
+
+.aviso-icon svg {
+  width: 31px;
+  height: 31px;
+}
+
+.aviso-card .form-title {
+  margin-bottom: 0.55rem;
+}
+
+.aviso-card .form-subtitle {
+  margin-bottom: 1.1rem;
+}
+
+.aviso-card .form-subtitle strong {
+  color: var(--texto);
+}
+
+.aviso-note {
+  margin-bottom: 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.aviso-card .btn-primary {
+  width: 100%;
+}
+
+.aviso-card .form-footer {
+  margin-top: 1rem;
+  text-align: center;
+}

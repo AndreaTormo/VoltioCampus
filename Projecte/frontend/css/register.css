@@ -1,0 +1,111 @@
+/* ============================================================
+   VoltioCampus · Estilos específicos del registro
+   Formulario más ancho, filas de dos campos y selector de tipo.
+   ============================================================ */
+
+.register-card {
+  max-width: 540px;
+}
+
+.register-card .form-title {
+  max-width: 18ch;
+}
+
+.register-form {
+  gap: 0.95rem;
+}
+
+/* Filas de dos campos que se apilan en pantallas pequeñas */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.register-form .btn-primary {
+  margin-top: 0.35rem;
+}
+
+.register-card .form-error {
+  margin-top: 0.9rem;
+}
+
+.register-card .security-note {
+  margin-top: 0.9rem;
+}
+
+/* Matrícula visible siempre en mayúsculas */
+.input-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.input-uppercase::placeholder {
+  letter-spacing: 0.08em;
+}
+
+/* Selector de tipo con el mismo aspecto que los campos de texto */
+.select-wrap select {
+  width: 100%;
+  padding: 0.8rem 2.6rem 0.8rem 1rem;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.select-wrap select:hover {
+  border-color: var(--borde-claro);
+}
+
+.select-wrap select:focus {
+  background-color: var(--superficie-alta);
+  border-color: var(--turquesa);
+  box-shadow: 0 0 0 3px rgba(53, 208, 186, 0.18);
+}
+
+.select-wrap select option {
+  color: #111111;
+  background-color: #ffffff;
+}
+
+/* Flecha dibujada para el selector */
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1.1rem;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--texto-suave);
+  border-bottom: 2px solid var(--texto-suave);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Estado de error también para el selector */
+.input-wrap.is-invalid select {
+  border-color: var(--error);
+}
+
+.input-wrap.is-invalid select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 138, 128, 0.18);
+}
+
+/* En móvil, el formulario se centra dentro del panel apilado */
+@media (max-width: 900px) {
+  .register-card {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.95rem;
+  }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sessió · VoltioCampus</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/login.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/js/auth/login.js"></script>
+</head>
+<body>
+  <main class="auth-layout">
+
+    <!-- Panel izquierdo: marca y mensaje -->
+    <section class="panel-brand" aria-label="VoltioCampus">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span class="brand-name">
+          <span class="brand-voltio">Voltio</span>
+          <span class="brand-campus">Campus</span>
+        </span>
+      </div>
+
+      <p class="brand-tagline">Energia compartida i sostenible al IES l'Estació</p>
+
+      <div class="panel-brand-body">
+        <h1 class="brand-title">
+          Carrega el teu cotxe.
+          <span class="accent">Segueix el teu camí.</span>
+        </h1>
+
+        <p class="brand-subtitle">
+          Reserva un dels carregadors del centre de manera ràpida, justa i senzilla.
+        </p>
+
+        <ul class="brand-features">
+          <li class="feature">Reserva en segons</li>
+          <li class="feature">4 punts de càrrega · 22 kW · Connector Type 2</li>
+        </ul>
+      </div>
+
+      <p class="brand-footer">IES l'Estació · Mobilitat sostenible</p>
+    </section>
+
+    <!-- Panel derecho: formulario de acceso -->
+    <section class="panel-form">
+      <div class="form-card login-card">
+        <p class="eyebrow">Et donem la benvinguda</p>
+        <h2 class="form-title">Inicia sessió al teu compte</h2>
+        <p class="form-subtitle">Accedeix per a reservar el teu punt de càrrega i continuar el teu camí.</p>
+
+        <nav class="tabs" aria-label="Navegació d'accés">
+          <a class="tab is-active" href="/html/login.html" aria-current="page">Iniciar sessió</a>
+          <a class="tab" href="/html/register.html">Crear compte</a>
+        </nav>
+
+        <form class="auth-form login-form" id="login-form" novalidate>
+          <div class="field">
+            <label for="email">Correu electrònic</label>
+            <div class="input-wrap">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu@iescampusverde.es"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-describedby="email-error"
+              >
+            </div>
+            <p class="field-error" id="email-error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="password">Contrasenya</label>
+            <div class="input-wrap has-toggle">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="La teua contrasenya"
+                autocomplete="current-password"
+                required
+                aria-describedby="password-error"
+              >
+              <button
+                type="button"
+                class="toggle-password"
+                id="toggle-password"
+                aria-controls="password"
+                aria-pressed="false"
+              >Veure</button>
+            </div>
+            <p class="field-error" id="password-error" aria-live="polite"></p>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submit-btn">Entrar</button>
+        </form>
+
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+
+        <p class="security-note">
+          <span class="security-icon" aria-hidden="true"></span>
+          La teua sessió es tanca quan tanques el navegador.
+        </p>
+
+        <p class="form-footer">
+          No tens compte? <a href="/html/register.html">Crear compte</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

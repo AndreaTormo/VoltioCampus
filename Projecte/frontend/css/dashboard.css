@@ -1,0 +1,321 @@
+/* ============================================================
+   VoltioCampus · Dashboard de reservas
+   ============================================================ */
+
+.reserve-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.reserve-form .field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reserve-vehicle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-soft);
+}
+
+.reserve-vehicle > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--lime-soft);
+  color: var(--teal-dark);
+}
+
+.reserve-vehicle strong {
+  display: block;
+  font-size: 13px;
+}
+
+.reserve-vehicle small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.reserve-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.reserve-actions .button {
+  min-height: 44px;
+}
+
+.charger-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.charger-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-small);
+}
+
+.charger-card.is-preferred {
+  border-color: rgba(8, 127, 114, .45);
+  box-shadow: 0 0 0 1px rgba(8, 127, 114, .12);
+}
+
+.charger-card.is-free {
+  background: linear-gradient(180deg, var(--surface) 0%, #f8fffb 100%);
+}
+
+.charger-card.is-busy {
+  background: var(--orange-soft);
+}
+
+.charger-card.is-inactive {
+  opacity: .6;
+}
+
+.state.busy {
+  background: var(--orange-soft);
+  color: var(--orange);
+}
+
+.state.busy i {
+  background: var(--orange);
+}
+
+.charger-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.charger-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--surface-soft);
+  font-weight: 800;
+}
+
+.charger-card h3 {
+  font-size: 16px;
+}
+
+.charger-meta {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.charger-group {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 6px 9px;
+  border-radius: 99px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.charger-card.is-preferred .charger-group {
+  background: var(--lime-soft);
+  color: var(--teal-dark);
+}
+
+.charge-time {
+  display: grid;
+  gap: 3px;
+  min-width: 185px;
+}
+
+.charge-time span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.charge-time strong {
+  color: var(--ink);
+  font-size: 10px;
+}
+
+.sidebar nav button [data-icon] {
+  display: grid;
+  place-items: center;
+}
+
+.mobile-nav [data-icon] {
+  display: grid;
+  place-items: center;
+}
+
+.toast-region {
+  position: fixed;
+  z-index: 40;
+  right: 28px;
+  bottom: 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 320px;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  animation: rise .25s ease;
+}
+
+.toast.is-leaving {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+}
+
+.toast-check {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--lime-soft);
+  color: var(--teal-dark);
+}
+
+.toast.is-error .toast-check {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.toast strong {
+  display: block;
+  font-size: 13px;
+}
+
+.toast span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.reservation-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-soft);
+}
+
+.summary-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--lime-soft);
+  color: var(--teal-dark);
+}
+
+.summary-item small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.summary-item strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 18px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .charger-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .charger-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reserve-form .field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .charger-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reservation-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .reserve-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .reserve-actions .button {
+    width: 100%;
+  }
+
+  .toast-region {
+    right: 12px;
+    bottom: 80px;
+    left: 12px;
+  }
+
+  .toast {
+    min-width: 0;
+  }
+}

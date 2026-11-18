@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear compte · VoltioCampus</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/register.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/js/auth/register.js"></script>
+</head>
+<body>
+  <main class="auth-layout">
+
+    <!-- Panel izquierdo: marca y mensaje -->
+    <section class="panel-brand" aria-label="VoltioCampus">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span class="brand-name">
+          <span class="brand-voltio">Voltio</span>
+          <span class="brand-campus">Campus</span>
+        </span>
+      </div>
+
+      <p class="brand-tagline">Energia compartida i sostenible al IES l'Estació</p>
+
+      <div class="panel-brand-body">
+        <h1 class="brand-title">
+          Carrega el teu cotxe.
+          <span class="accent">Segueix el teu camí.</span>
+        </h1>
+
+        <p class="brand-subtitle">
+          Reserva un dels carregadors del centre de manera ràpida, justa i senzilla.
+        </p>
+
+        <ul class="brand-features">
+          <li class="feature">Reserva en segons</li>
+          <li class="feature">4 punts de càrrega · 22 kW · Connector Type 2</li>
+        </ul>
+      </div>
+
+      <p class="brand-footer">IES l'Estació · Mobilitat sostenible</p>
+    </section>
+
+    <!-- Panel derecho: formulario de registro -->
+    <section class="panel-form">
+      <div class="form-card register-card">
+        <p class="eyebrow">Et donem la benvinguda</p>
+        <h2 class="form-title">Crea el teu compte</h2>
+        <p class="form-subtitle">Unes poques dades i podràs reservar el teu punt de càrrega.</p>
+
+        <nav class="tabs" aria-label="Navegació d'accés">
+          <a class="tab" href="/html/login.html">Iniciar sessió</a>
+          <a class="tab is-active" href="/html/register.html" aria-current="page">Crear compte</a>
+        </nav>
+
+        <form class="auth-form register-form" id="register-form" novalidate>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="nombre">Nom</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  placeholder="El teu nom"
+                  autocomplete="given-name"
+                  autocapitalize="words"
+                  required
+                  aria-describedby="nombre-error"
+                >
+              </div>
+              <p class="field-error" id="nombre-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label for="apellidos">Cognoms</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="apellidos"
+                  name="apellidos"
+                  placeholder="Els teus cognoms"
+                  autocomplete="family-name"
+                  autocapitalize="words"
+                  required
+                  aria-describedby="apellidos-error"
+                >
+              </div>
+              <p class="field-error" id="apellidos-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Correu electrònic</label>
+            <div class="input-wrap">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu@iescampusverde.es"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-describedby="email-error"
+              >
+            </div>
+            <p class="field-error" id="email-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="password">Contrasenya</label>
+              <div class="input-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Mínim 8 caràcters"
+                  autocomplete="new-password"
+                  minlength="8"
+                  required
+                  aria-describedby="password-error"
+                >
+              </div>
+              <p class="field-error" id="password-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label for="password2">Repetir contrasenya</label>
+              <div class="input-wrap">
+                <input
+                  type="password"
+                  id="password2"
+                  name="password2"
+                  placeholder="Repeteix la contrasenya"
+                  autocomplete="new-password"
+                  minlength="8"
+                  required
+                  aria-describedby="password2-error"
+                >
+              </div>
+              <p class="field-error" id="password2-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tipo">Tipus d'usuari</label>
+            <div class="input-wrap select-wrap">
+              <select id="tipo" name="tipo" autocomplete="off" required aria-describedby="tipo-error">
+                <option value="alumno">Alumne</option>
+                <option value="profesor">Professor</option>
+              </select>
+            </div>
+            <p class="field-error" id="tipo-error" aria-live="polite"></p>
+          </div>
+
+          <!-- Este campo solo se muestra cuando el tipo es "profesor" -->
+          <div class="field" id="campo-nia" hidden>
+            <label for="nia_profesor">NIA</label>
+            <div class="input-wrap">
+              <input
+                type="text"
+                id="nia_profesor"
+                name="nia_profesor"
+                placeholder="8 dígits"
+                inputmode="numeric"
+                pattern="[0-9]{8}"
+                maxlength="8"
+                autocomplete="off"
+                aria-describedby="nia-error"
+              >
+            </div>
+            <p class="field-error" id="nia-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="matricula">Matrícula del cotxe</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="matricula"
+                  name="matricula"
+                  class="input-uppercase"
+                  placeholder="1234ABC"
+                  maxlength="7"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  spellcheck="false"
+                  pattern="[0-9]{4}[A-Za-z]{3}"
+                  required
+                  aria-describedby="matricula-error"
+                >
+              </div>
+              <p class="field-error" id="matricula-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label for="modelo_coche">Model del cotxe</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="modelo_coche"
+                  name="modelo_coche"
+                  placeholder="Renault Zoe"
+                  autocomplete="off"
+                  autocapitalize="words"
+                  required
+                  aria-describedby="modelo-error"
+                >
+              </div>
+              <p class="field-error" id="modelo-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submit-btn">Crear compte</button>
+        </form>
+
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+
+        <p class="security-note">
+          <span class="security-icon" aria-hidden="true"></span>
+          Les teues dades es guarden de manera segura.
+        </p>
+
+        <p class="form-footer">
+          Ja tens compte? <a href="/html/login.html">Iniciar sessió</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

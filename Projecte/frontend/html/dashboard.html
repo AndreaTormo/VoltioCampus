@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserves · VoltioCampus</title>
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem("tema");
+        if (tema !== "dark" && tema !== "light") {
+          tema = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.dataset.theme = tema;
+      } catch (error) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/js/core/theme.js"></script>
+  <script type="module" src="/js/dashboard/dashboard.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="logo" href="/html/dashboard.html" aria-label="VoltioCampus">
+        <span class="logo-mark" data-icon="bolt"></span>
+        <span>Voltio<span>Campus</span></span>
+      </a>
+
+      <nav aria-label="Navegació de reserves">
+        <span class="nav-label">LA MEUA ZONA</span>
+        <button class="is-active" type="button" data-section="cargadores" aria-current="page">
+          <span data-icon="plug"></span>
+          <span>Carregadors</span>
+        </button>
+        <button type="button" data-section="reservas">
+          <span data-icon="calendar"></span>
+          <span>Les meues reserves</span>
+        </button>
+        <button type="button" data-section="horario">
+          <span data-icon="calendar"></span>
+          <span>El meu horari</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-support">
+        <span data-icon="bolt"></span>
+        <strong>Reserva la teua càrrega</strong>
+        <p>Trià un dia i una franja. T'assignarem un carregador lliure del teu grup.</p>
+      </div>
+
+      <div class="profile">
+        <span class="avatar" id="user-avatar">--</span>
+        <div class="profile-copy">
+          <strong id="user-name">Usuari</strong>
+          <small id="user-email">usuari@centro.edu</small>
+        </div>
+        <button class="icon-button" type="button" id="logout-btn" aria-label="Tancar sessió" data-icon="logout"></button>
+      </div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="mobile-brand">
+          <a class="logo" href="/html/dashboard.html" aria-label="VoltioCampus">
+            <span class="logo-mark" data-icon="bolt"></span>
+            <span>Voltio<span>Campus</span></span>
+          </a>
+        </div>
+
+        <div class="breadcrumb">
+          <span>VoltioCampus</span>
+          <strong>›</strong>
+          <strong id="breadcrumb-section">Carregadors</strong>
+        </div>
+
+        <div class="top-actions">
+          <span class="status-pill"><i></i>Sistema operatiu</span>
+          <span class="admin-pill"><span data-icon="plug"></span> <span id="user-tipo-pill">Alumne/a</span></span>
+          <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Activar mode fosc"></button>
+          <div class="account" data-account>
+            <button class="top-avatar" id="top-avatar" type="button" data-account-toggle aria-haspopup="menu" aria-expanded="false" aria-label="Menú del compte">--</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="page" id="main-content">
+        <div class="page-title">
+          <div>
+            <span class="eyebrow">ÀREA PERSONAL</span>
+            <h1>Punts de càrrega</h1>
+            <p>Consulta la disponibilitat i reserva la teua franja.</p>
+          </div>
+          <span class="admin-pill"><span data-icon="bolt"></span> Reserva la teua càrrega</span>
+        </div>
+
+        <section id="section-cargadores">
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Reservar carregador</h2>
+                <p id="chargers-count">Selecciona un dia i una franja.</p>
+              </div>
+            </div>
+
+            <form class="reserve-form" id="reserve-form" novalidate>
+              <div class="field-row">
+                <div class="field">
+                  <label for="fecha">Dia</label>
+                  <div class="input-wrap">
+                    <input type="date" id="fecha" name="fecha" required aria-describedby="fecha-error">
+                  </div>
+                  <p class="field-error" id="fecha-error" aria-live="polite"></p>
+                </div>
+
+                <div class="field">
+                  <label for="bloque">Franja horària</label>
+                  <div class="input-wrap">
+                    <select id="bloque" name="bloque" required aria-describedby="bloque-error">
+                      <option value="">Selecciona una franja</option>
+                      <option value="BLOQUE_1">Matí · 08:00 - 11:00</option>
+                      <option value="BLOQUE_2">Matí · 11:30 - 14:00</option>
+                      <option value="BLOQUE_3">Vesprada · 15:00 - 18:00</option>
+                      <option value="BLOQUE_4">Vesprada · 18:15 - 21:00</option>
+                    </select>
+                  </div>
+                  <p class="field-error" id="bloque-error" aria-live="polite"></p>
+                </div>
+              </div>
+
+              <div class="reserve-vehicle" id="reserve-vehicle">
+                <span data-icon="car"></span>
+                <div>
+                  <strong id="reserve-vehicle-title">El teu vehicle</strong>
+                  <small id="reserve-vehicle-meta">Les dades es prenen del teu compte.</small>
+                </div>
+              </div>
+
+              <div class="reserve-actions">
+                <button class="button secondary" type="button" id="check-btn">
+                  <span data-icon="refresh"></span> Consultar disponibilitat
+                </button>
+                <button class="button primary" type="submit" id="reserve-btn" disabled>
+                  <span data-icon="bolt"></span> Reservar plaça
+                </button>
+              </div>
+
+              <p class="form-error" id="reserve-error" role="alert" hidden></p>
+            </form>
+
+            <div class="loading-state" id="chargers-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant carregadors...</strong>
+              <p>Consultant l'estat dels punts de càrrega.</p>
+            </div>
+
+            <div class="charger-grid" id="charger-grid" hidden></div>
+
+            <div class="empty-state" id="chargers-empty" hidden>
+              <span data-icon="plug"></span>
+              <h2>Sense carregadors</h2>
+              <p>No hi ha punts de càrrega configurats.</p>
+            </div>
+
+            <div class="error-state" id="chargers-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'ha pogut carregar la disponibilitat</h2>
+              <p id="chargers-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-chargers">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-reservas" hidden>
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>Les meues reserves</h2>
+                <p id="reservations-count">Carregant reserves...</p>
+              </div>
+              <button class="button secondary" type="button" id="refresh-reservations">
+                <span data-icon="refresh"></span> Actualitzar
+              </button>
+            </div>
+
+            <div class="reservation-summary" id="reservation-summary" hidden>
+              <div class="summary-item">
+                <span class="summary-icon" data-icon="bolt"></span>
+                <div>
+                  <small>Hores de càrrega reservades</small>
+                  <strong id="summary-hours">0 h</strong>
+                </div>
+              </div>
+              <div class="summary-item">
+                <span class="summary-icon" data-icon="calendar"></span>
+                <div>
+                  <small>Reserves actives</small>
+                  <strong id="summary-active">0</strong>
+                </div>
+              </div>
+              <div class="summary-item">
+                <span class="summary-icon" data-icon="clock"></span>
+                <div>
+                  <small>Hores passades</small>
+                  <strong id="summary-past-hours">0 h</strong>
+                </div>
+              </div>
+              <div class="summary-item">
+                <span class="summary-icon" data-icon="calendar"></span>
+                <div>
+                  <small>Reserves passades</small>
+                  <strong id="summary-past-reservas">0</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="loading-state" id="reservations-loading" role="status">
+              <span class="spinner"></span>
+              <strong>Carregant reserves...</strong>
+              <p>Consultant les teues reserves.</p>
+            </div>
+
+            <div class="admin-table-wrap" id="reservations-table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dia</th>
+                    <th>Franja</th>
+                    <th>Connexió</th>
+                    <th>Carregador</th>
+                    <th>Grup</th>
+                    <th>Estat</th>
+                    <th><span class="sr-only">Accions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="reservations-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="reservations-empty" hidden>
+              <span data-icon="calendar"></span>
+              <h2>No tens reserves</h2>
+              <p>Reserva la teua primera franja des de la secció Carregadors.</p>
+            </div>
+
+            <div class="error-state" id="reservations-error" hidden>
+              <span data-icon="alert"></span>
+              <h2>No s'han pogut carregar les teues reserves</h2>
+              <p id="reservations-error-message">Torna-ho a provar.</p>
+              <button class="button primary" type="button" id="retry-reservations">Torna a provar</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-horario" hidden>
+          <section class="admin-section">
+            <div class="section-heading">
+              <div>
+                <h2>El meu horari de presència</h2>
+                <p>Indica quan ets al centre. Només podràs reservar un bloc de càrrega que quede completament dins d’un interval.</p>
+              </div>
+            </div>
+
+            <div class="schedule-editor" id="horario-editor">
+              <div class="schedule-card">
+                <h3>Dies que vens al centre</h3>
+                <p>Activa els dies que vens i indica l’horari de cada un.</p>
+                <div class="schedule-days" data-horario-dias></div>
+              </div>
+              <div class="schedule-actions">
+                <button class="button primary" type="button" data-horario-guardar>
+                  Guardar horari
+                </button>
+              </div>
+              <p class="schedule-status" data-horario-estado role="status"></p>
+              <p class="form-error" data-horario-error role="alert" hidden></p>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="mobile-nav has-three-sections" aria-label="Navegació mòbil">
+        <button class="is-active" type="button" data-section="cargadores" aria-current="page">
+          <span data-icon="plug"></span>
+          <span>Carregadors</span>
+        </button>
+        <button type="button" data-section="reservas">
+          <span data-icon="calendar"></span>
+          <span>Les meues reserves</span>
+        </button>
+        <button type="button" data-section="horario">
+          <span data-icon="calendar"></span>
+          <span>El meu horari</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
